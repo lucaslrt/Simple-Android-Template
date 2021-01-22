@@ -4,6 +4,7 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
 import com.nhaarman.mockitokotlin2.given
 import com.nhaarman.mockitokotlin2.verify
+import com.template.androidtemplateproject.data.ApiResource
 import com.template.androidtemplateproject.data.model.Content
 import com.template.androidtemplateproject.data.repository.HomeRepository
 import kotlinx.coroutines.runBlocking
@@ -31,7 +32,7 @@ class HomeViewModelTest : KoinTest {
     }
 
     @Mock
-    private lateinit var contentListLiveDataObserver: Observer<ArrayList<Content>>
+    private lateinit var contentListLiveDataObserver: Observer<ApiResource<ArrayList<Content>>>
 
     private val viewModel: HomeViewModel by inject()
 
@@ -51,7 +52,7 @@ class HomeViewModelTest : KoinTest {
     @Test
     fun `check if content live data receives a list of contents when called method 'getContent'`() {
         // Arrange
-        val mockContent = arrayListOf(Content(1, "Data 1"), Content(2, "Data 2"))
+        val mockContent = ApiResource.success(arrayListOf(Content(1, "Data 1"), Content(2, "Data 2")))
         runBlocking {
             declareMock<HomeRepository> {
                 given(this.getContentFromApi()).willReturn(

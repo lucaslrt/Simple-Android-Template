@@ -7,9 +7,9 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import com.template.androidtemplateproject.R
-import com.template.androidtemplateproject.data.repository.HomeRepository
+import com.template.androidtemplateproject.data.ApiResource
+import com.template.androidtemplateproject.util.LogUtil
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class HomeFragment : Fragment() {
@@ -43,7 +43,14 @@ class HomeFragment : Fragment() {
 
     private fun initObservers() {
         homeViewModel.contentList.observe(viewLifecycleOwner, Observer {
-            tvDataContent.text = it[0].data
+            if(it.status == ApiResource.Companion.ApiStatus.LOADING){
+                LogUtil.print("Loading....")
+            } else {
+                LogUtil.print("Job done.")
+                if (!it.data.isNullOrEmpty()) {
+                    tvDataContent.text = it.data[0].data
+                }
+            }
         })
     }
 }

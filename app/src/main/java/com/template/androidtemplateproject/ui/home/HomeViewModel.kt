@@ -3,6 +3,7 @@ package com.template.androidtemplateproject.ui.home
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.template.androidtemplateproject.data.ApiResource
 import com.template.androidtemplateproject.data.model.Content
 import com.template.androidtemplateproject.data.repository.HomeRepository
 import kotlinx.coroutines.CoroutineScope
@@ -12,8 +13,8 @@ import kotlinx.coroutines.withContext
 
 class HomeViewModel(private val repository: HomeRepository) : ViewModel() {
 
-    private val _contentList = MutableLiveData<ArrayList<Content>>()
-    val contentList: LiveData<ArrayList<Content>> = _contentList
+    private val _contentList = MutableLiveData<ApiResource<ArrayList<Content>>>()
+    val contentList: LiveData<ApiResource<ArrayList<Content>>> = _contentList
 
     fun getContent() {
         /*// MÉTODO SEM COROUTINE
@@ -22,6 +23,7 @@ class HomeViewModel(private val repository: HomeRepository) : ViewModel() {
         }*/
 
         // MÉTODO COM COROUTINE
+        _contentList.postValue(ApiResource.loading(null))
         CoroutineScope(Dispatchers.IO).launch {
             val contentList = withContext(Dispatchers.IO) {
                 repository.getContentFromApi()
