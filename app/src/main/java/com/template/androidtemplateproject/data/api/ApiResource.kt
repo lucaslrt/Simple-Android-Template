@@ -1,4 +1,4 @@
-package com.template.androidtemplateproject.data
+package com.template.androidtemplateproject.data.api
 
 data class ApiResource<out T>(
     val status: ApiStatus,

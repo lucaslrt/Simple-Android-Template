@@ -5,17 +5,17 @@ import android.app.Activity
 import android.app.AlertDialog
 import com.template.androidtemplateproject.R
 
-class LoadingDialog(val activity: Activity) {
+class LoadingDialog(private val activity: Activity) {
 
-    private lateinit var dialog: AlertDialog
-
-    @SuppressLint("InflateParams")
-    fun startLoadingDialog() {
+    private val dialog by lazy {
         val dialogBuilder = AlertDialog.Builder(activity)
         val inflater = activity.layoutInflater
         dialogBuilder.setView(inflater.inflate(R.layout.loading_custom_dialog, null))
+        dialogBuilder.create()
+    }
 
-        dialog = dialogBuilder.create()
+    @SuppressLint("InflateParams")
+    fun startLoadingDialog() {
         dialog.show()
     }
 

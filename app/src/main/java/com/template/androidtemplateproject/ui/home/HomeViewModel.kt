@@ -3,9 +3,10 @@ package com.template.androidtemplateproject.ui.home
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.template.androidtemplateproject.data.ApiResource
+import com.template.androidtemplateproject.data.api.ApiResource
 import com.template.androidtemplateproject.data.model.Content
 import com.template.androidtemplateproject.data.repository.HomeRepository
+import com.template.androidtemplateproject.util.EspressoIdlingResource
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -29,6 +30,7 @@ class HomeViewModel(private val repository: HomeRepository) : ViewModel() {
                 repository.getContentFromApi()
             }
             _contentList.postValue(contentList)
+            EspressoIdlingResource.decrement()
         }
     }
 

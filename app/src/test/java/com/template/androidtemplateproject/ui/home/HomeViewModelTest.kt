@@ -4,7 +4,7 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
 import com.nhaarman.mockitokotlin2.given
 import com.nhaarman.mockitokotlin2.verify
-import com.template.androidtemplateproject.data.ApiResource
+import com.template.androidtemplateproject.data.api.ApiResource
 import com.template.androidtemplateproject.data.model.Content
 import com.template.androidtemplateproject.data.repository.HomeRepository
 import kotlinx.coroutines.runBlocking
@@ -69,3 +69,11 @@ class HomeViewModelTest : KoinTest {
         verify(contentListLiveDataObserver).onChanged(mockContent)
     }
 }
+
+// MOCK PARA REPOSITORY SEM INJEÇÃO DE DEPENDENCIA
+/*
+class MockRepository(private val result: ApiResource<Any>) {
+    fun getContentFromApi(callback: (result: ApiResource<Any>) -> Unit){
+        callback(result)
+    }
+}*/

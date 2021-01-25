@@ -1,4 +1,4 @@
-package com.template.androidtemplateproject.data
+package com.template.androidtemplateproject.data.api
 
 import com.template.androidtemplateproject.util.LogUtil
 import okhttp3.ResponseBody
