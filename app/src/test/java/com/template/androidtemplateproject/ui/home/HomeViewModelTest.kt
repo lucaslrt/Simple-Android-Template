@@ -11,6 +11,7 @@ import kotlinx.coroutines.runBlocking
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
+import org.junit.runner.RunWith
 import org.koin.core.context.startKoin
 import org.koin.dsl.module
 import org.koin.test.KoinTest
@@ -20,7 +21,9 @@ import org.koin.test.mock.declareMock
 import org.mockito.Mock
 import org.mockito.Mockito
 import org.mockito.MockitoAnnotations
+import org.mockito.junit.MockitoJUnitRunner
 
+//@RunWith(MockitoJUnitRunner::class)
 class HomeViewModelTest : KoinTest {
 
     @get:Rule
@@ -52,7 +55,8 @@ class HomeViewModelTest : KoinTest {
     @Test
     fun `check if content live data receives a list of contents when called method 'getContent'`() {
         // Arrange
-        val mockContent = ApiResource.success(arrayListOf(Content(1, "Data 1"), Content(2, "Data 2")))
+        val mockContent =
+            ApiResource.success(arrayListOf(Content(1, "Data 1"), Content(2, "Data 2")))
         runBlocking {
             declareMock<HomeRepository> {
                 given(this.getContentFromApi()).willReturn(
@@ -70,7 +74,7 @@ class HomeViewModelTest : KoinTest {
     }
 }
 
-// MOCK PARA REPOSITORY SEM INJEÇÃO DE DEPENDENCIA
+// MOCK PARA REPOSITORY SEM LIBS DE INJEÇÃO DE DEPENDENCIA
 /*
 class MockRepository(private val result: ApiResource<Any>) {
     fun getContentFromApi(callback: (result: ApiResource<Any>) -> Unit){
