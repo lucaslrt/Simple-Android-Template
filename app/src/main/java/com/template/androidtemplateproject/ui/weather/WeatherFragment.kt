@@ -37,7 +37,7 @@ class WeatherFragment : Fragment() {
                 ApiResource.Companion.ApiStatus.SUCCESS -> {
                     (activity as MainActivity).hideLoading()
                     if (result.data != null) {
-                        tvWeatherInfo.text = result.data.name
+                        tvWeatherInfo.text = "Temperature at ${result.data.name} is ${result.data.temp.temp} celcius."
                     }
                 }
                 else -> {
