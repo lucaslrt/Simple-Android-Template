@@ -1,4 +1,4 @@
-package com.template.androidtemplateproject.ui.home
+package com.template.androidtemplateproject.ui.weather
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -12,43 +12,32 @@ import com.template.androidtemplateproject.R
 import com.template.androidtemplateproject.data.api.ApiResource
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class HomeFragment : Fragment() {
+class WeatherFragment : Fragment() {
 
-    private lateinit var tvDataContent: TextView
-
-    /*// USAR QUANDO NÃO ESTIVER USANDO INJEÇÃO DE DEPENDENCIA
-    private val homeViewModel =
-        ViewModelProvider(this, HomeViewModel.HomeViewModelFactory(HomeRepository())).get(
-            HomeViewModel::class.java
-        )
-    }*/
-
-    // VIEWMODEL USANDO KOIN
-    private val homeViewModel: HomeViewModel by viewModel()
+    private val weatherViewModel: WeatherViewModel by viewModel()
+    private lateinit var tvWeatherInfo: TextView
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val root = inflater.inflate(R.layout.fragment_home, container, false)
-        tvDataContent = root.findViewById(R.id.tv_content_data)
+        val root = inflater.inflate(R.layout.fragment_dashboard, container, false)
+        tvWeatherInfo = root.findViewById(R.id.text_dashboard)
+
+        initObservers()
+        weatherViewModel.getWeather()
         return root
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        initObservers()
-        homeViewModel.getContent()
-    }
-
     private fun initObservers() {
-        homeViewModel.contentList.observe(viewLifecycleOwner, Observer {
-            when (it.status) {
+        weatherViewModel.weatherResponse.observe(viewLifecycleOwner, Observer { result ->
+            when (result.status) {
                 ApiResource.Companion.ApiStatus.LOADING -> (activity as MainActivity).showLoading()
                 ApiResource.Companion.ApiStatus.SUCCESS -> {
                     (activity as MainActivity).hideLoading()
-                    if (!it.data.isNullOrEmpty()) {
-                        tvDataContent.text = it.data[0].data
+                    if (result.data != null) {
+                        tvWeatherInfo.text = result.data.name
                     }
                 }
                 else -> {

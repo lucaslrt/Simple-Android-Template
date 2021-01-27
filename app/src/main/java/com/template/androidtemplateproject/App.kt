@@ -3,6 +3,8 @@ package com.template.androidtemplateproject
 import android.annotation.SuppressLint
 import android.app.Application
 import com.template.androidtemplateproject.di.homeModule
+import com.template.androidtemplateproject.di.networkModule
+import com.template.androidtemplateproject.di.weatherModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.startKoin
@@ -20,7 +22,7 @@ class App : Application() {
         startKoin {
             //androidLogger()
             androidContext(this@App)
-            modules(homeModule)
+            modules(listOf(networkModule, homeModule, weatherModule))
         }
     }
 }

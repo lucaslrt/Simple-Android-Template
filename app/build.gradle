@@ -26,6 +26,12 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
+
+        debug {
+            minifyEnabled false
+            buildConfigField "String", "API_URL", "\"https://api.openweathermap.org/data/2.5/\""
+            debuggable true
+        }
     }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
@@ -51,8 +57,9 @@ dependencies {
     implementation "androidx.navigation:navigation-fragment-ktx:$navigation_version"
     implementation "androidx.navigation:navigation-ui-ktx:$navigation_version"
 
-    implementation 'com.squareup.retrofit2:retrofit:2.6.4'
-    implementation 'com.squareup.retrofit2:converter-gson:2.6.1'
+    def squareup_version = '2.7.1'
+    implementation "com.squareup.retrofit2:retrofit:$squareup_version"
+    implementation "com.squareup.retrofit2:converter-gson:$squareup_version"
     implementation 'com.squareup.okhttp3:logging-interceptor:4.1.0'
 
     def lifecycle_version = '2.2.0'

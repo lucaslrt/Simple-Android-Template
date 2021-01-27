@@ -8,6 +8,5 @@ import org.koin.dsl.module
 val homeModule = module {
     // Pode ser usado um 'single' pra definição de um factory geral
     factory { HomeRepository() }
-
     viewModel { HomeViewModel(get()) }
 }
