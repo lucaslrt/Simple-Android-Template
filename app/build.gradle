@@ -40,6 +40,13 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
+    sourceSets {
+        main {
+            res {
+                srcDirs 'src/main/res', 'src/main/res/layouts/home', 'src/main/res/layouts/weather', 'src/main/res/layouts/home/layout', 'src/main/res/layouts/weather/layout'
+            }
+        }
+    }
 }
 
 dependencies {

@@ -22,7 +22,7 @@ class WeatherFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val root = inflater.inflate(R.layout.fragment_dashboard, container, false)
+        val root = inflater.inflate(R.layout.fragment_weather, container, false)
         tvWeatherInfo = root.findViewById(R.id.text_dashboard)
 
         initObservers()
