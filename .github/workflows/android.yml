@@ -23,7 +23,7 @@ jobs:
         run: chmod u+x ./gradlew
 
       - name: Assemble debug apk
-        run: ./gradlew assembleDebug
+        run: ./gradlew assemble
 
       - name: Run tests
         run: ./gradlew test
