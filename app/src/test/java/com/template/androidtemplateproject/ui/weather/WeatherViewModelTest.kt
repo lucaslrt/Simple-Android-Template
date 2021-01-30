@@ -3,16 +3,19 @@ package com.template.androidtemplateproject.ui.weather
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
 import com.nhaarman.mockitokotlin2.given
+import com.nhaarman.mockitokotlin2.times
 import com.nhaarman.mockitokotlin2.verify
 import com.template.androidtemplateproject.data.api.ApiResource
 import com.template.androidtemplateproject.data.model.TempData
 import com.template.androidtemplateproject.data.model.Weather
 import com.template.androidtemplateproject.data.repository.WeatherRepository
 import kotlinx.coroutines.runBlocking
+import org.junit.After
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.koin.core.context.startKoin
+import org.koin.core.context.stopKoin
 import org.koin.dsl.module
 import org.koin.test.KoinTest
 import org.koin.test.inject
@@ -50,6 +53,11 @@ class WeatherViewModelTest : KoinTest {
         MockitoAnnotations.initMocks(this)
     }
 
+    @After
+    fun tearDown() {
+        stopKoin()
+    }
+
     @Test
     fun `check if content live data receives a weather response when called method 'getWeather'`() {
         // Arrange
@@ -68,6 +76,11 @@ class WeatherViewModelTest : KoinTest {
         viewModel.getWeather()
 
         // Assert
-        verify(weatherResponseLiveDataObserver).onChanged(mockContent)
+        runBlocking {
+            verify(weatherResponseLiveDataObserver, times(1)).onChanged(ApiResource(ApiResource.Companion.ApiStatus.LOADING, null, null, null, null))
+            verify(weatherResponseLiveDataObserver, times(1)).onChanged(mockContent)
+        }
+//        verify(weatherResponseLiveDataObserver, times(1)).onChanged(ApiResource(ApiResource.Companion.ApiStatus.LOADING, null, null, null, null))
+
     }
 }

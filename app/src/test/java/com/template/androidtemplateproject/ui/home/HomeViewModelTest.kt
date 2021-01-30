@@ -3,16 +3,18 @@ package com.template.androidtemplateproject.ui.home
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
 import com.nhaarman.mockitokotlin2.given
+import com.nhaarman.mockitokotlin2.times
 import com.nhaarman.mockitokotlin2.verify
 import com.template.androidtemplateproject.data.api.ApiResource
 import com.template.androidtemplateproject.data.model.Content
 import com.template.androidtemplateproject.data.repository.HomeRepository
 import kotlinx.coroutines.runBlocking
+import org.junit.After
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import org.junit.runner.RunWith
 import org.koin.core.context.startKoin
+import org.koin.core.context.stopKoin
 import org.koin.dsl.module
 import org.koin.test.KoinTest
 import org.koin.test.inject
@@ -21,7 +23,7 @@ import org.koin.test.mock.declareMock
 import org.mockito.Mock
 import org.mockito.Mockito
 import org.mockito.MockitoAnnotations
-import org.mockito.junit.MockitoJUnitRunner
+
 
 //@RunWith(MockitoJUnitRunner::class)
 class HomeViewModelTest : KoinTest {
@@ -52,6 +54,11 @@ class HomeViewModelTest : KoinTest {
         MockitoAnnotations.initMocks(this)
     }
 
+    @After
+    fun tearDown(){
+        stopKoin()
+    }
+
     @Test
     fun `check if content live data receives a list of contents when called method 'getContent'`() {
         // Arrange
@@ -70,7 +77,19 @@ class HomeViewModelTest : KoinTest {
         viewModel.getContent()
 
         // Assert
-        verify(contentListLiveDataObserver).onChanged(mockContent)
+        runBlocking {
+            verify(contentListLiveDataObserver, times(1)).onChanged(
+                ApiResource(
+                    ApiResource.Companion.ApiStatus.LOADING,
+                    null,
+                    null,
+                    null,
+                    null
+                )
+            )
+            verify(contentListLiveDataObserver, times(1)).onChanged(mockContent)
+        }
+
     }
 }
 
