@@ -1,5 +1,8 @@
 # Android Template Project
 
+![Android CI](https://github.com/lucaslrt/Simple-Android-Template/workflows/Android%20CI/badge.svg)
+
+
 This is a simple android template project using 100% kotlin language, MVVM architecture, some of Jetpack lib features, Koin as injection dependency, Retrofit2 and Coroutines for API network, and some examples of Unit and Instrumented Tests using Mockito and JUnit4.
 
 ## Installation
